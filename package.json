@@ -7,7 +7,7 @@
     "react-dom": "^16.11.0",
     "react-scripts": "^5.0.1"
   },
-  "homepage": "http://CSALS.github.io/Sorting-Visualizer",
+  "homepage": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -32,6 +32,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "autoprefixer": "^10.4.20",
     "gh-pages": "^6.1.1",
     "postcss": "^8.4.41",
