@@ -2,8 +2,7 @@
 
 Welcome to the **Sorting Visualizer**! This project provides a visual representation of various sorting algorithms, making it easier to understand how they work. You can visualize algorithms like Merge Sort, Heap Sort, Quick Sort, Insertion Sort, Bubble Sort, and Selection Sort.
 
-🔗 **Access the Sorting Visualizer [here](#)**
-
+🔗 **Access the Sorting Visualizer [here](https://visualizer-5rxf.onrender.com)**
 
 ## ✨ Features
 
