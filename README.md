@@ -4,15 +4,6 @@ Welcome to the **Sorting Visualizer**! This project provides a visual representa
 
 🔗 **Access the Sorting Visualizer [here](#)**
 
-## 📚 Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Notes](#notes)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## ✨ Features
 
