@@ -39,6 +39,6 @@ Follow these steps to get a local copy of the project up and running.
 
 1. Clone the repository:
    ```sh
-   git
+   git clone https://github.com/Karn-Tiwari/Visualizer.git
    cd sorting-visualizer
    ```
