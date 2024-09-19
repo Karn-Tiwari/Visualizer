@@ -164,7 +164,7 @@ const SortingVisualizer = () => {
         restoreStoreButtons();
     }
   };
-const finalColor = #ffc107;
+const finalColor = "#ffc107";
   const animateSort = (animations) => {
     setIsSorting(true); // Set sorting state to true
     const speedMultiplier = ANIMATION_SPEED_OPTIONS[playbackSpeed]; // Get speed multiplier
