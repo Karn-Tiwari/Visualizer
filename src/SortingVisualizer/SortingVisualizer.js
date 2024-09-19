@@ -164,7 +164,7 @@ const SortingVisualizer = () => {
         restoreStoreButtons();
     }
   };
-
+const finalColor = #ffc107;
   const animateSort = (animations) => {
     setIsSorting(true); // Set sorting state to true
     const speedMultiplier = ANIMATION_SPEED_OPTIONS[playbackSpeed]; // Get speed multiplier
@@ -192,6 +192,7 @@ const SortingVisualizer = () => {
         const barStyle = arrayBars[barIndex].style;
         const timeoutId = setTimeout(() => {
           barStyle.height = `${newHeight}px`;
+          barStyle.backgroundColor = finalColor,
         }, i * speedMultiplier);
         timeoutsRef.current.push(timeoutId); // Store timeout
       }
