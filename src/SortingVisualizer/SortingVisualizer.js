@@ -1,4 +1,3 @@
-// Import necessary dependencies from React and sorting algorithms
 import React, { useState, useEffect, useRef } from "react";
 import { getMergeSortAnimations } from "../SortingAlgorithms/MergeSort";
 import { getQuickSortAnimations } from "../SortingAlgorithms/QuickSort";
@@ -7,90 +6,87 @@ import { getInsertionSortAnimations } from "../SortingAlgorithms/InsertionSort";
 import { getSelectionSortAnimations } from "../SortingAlgorithms/SelectionSort";
 import { getHeapSortAnimations } from "../SortingAlgorithms/HeapSort";
 
-// Define constants for window dimensions, number of array bars, animation speed, and colors
+// Constants
 let WINDOW_WIDTH = window.innerWidth;
 let WINDOW_HEIGHT = window.innerHeight;
-let NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 15); // Number of bars depends on window width
+let NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 8);
 const ANIMATION_SPEED_OPTIONS = {
-  "0.25x": 150, // Slowest speed
+  "0.25x": 150,
   "0.5x": 75,
-  "1x": 5, // Default speed
+  "1x": 5,
   "1.5x": 2.5,
-  "2x": 1.5, // Fastest speed
+  "2x": 1.5,
 };
-const PRIMARY_COLOR = "#2db5a3"; // Teal color for default state of bars
-const SECONDARY_COLOR = "#f43f5e"; // Red color for comparison during sorting
-const BACKGROUND_COLOR = "#1e293b"; // Dark background color
+const PRIMARY_COLOR = "#2db5a3"; // Darker teal color
+const SECONDARY_COLOR = "#f43f5e"; // Darker red color
+const BACKGROUND_COLOR = "#1e293b"; // Darker background color
 
-// Main SortingVisualizer functional component
 const SortingVisualizer = () => {
-  // State management using React hooks
-  const [array, setArray] = useState([]); // State for array of values
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState(""); // Store selected sorting algorithm
-  const [isSorting, setIsSorting] = useState(false); // Track sorting state to disable/enable actions
-  const [playbackSpeed, setPlaybackSpeed] = useState("1x"); // Manage playback speed selection
-  const timeoutsRef = useRef([]); // Reference to store and manage timeouts
+  const [array, setArray] = useState([]); // State to store the array
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState(""); // State to store the selected sorting algorithm
+  const [isSorting, setIsSorting] = useState(false); // State to track if sorting is in progress
+  const [playbackSpeed, setPlaybackSpeed] = useState("1x"); // State to store the playback speed
+  const timeoutsRef = useRef([]); // Ref to store timeouts for animations
 
-  // useEffect hook to reset the array on component load or window resize
+  // useEffect to initialize the array and set up the resize event listener
   useEffect(() => {
-    resetArray(); // Initialize array when component loads
-    window.addEventListener("resize", handleResize); // Add resize event listener
-    return () => window.removeEventListener("resize", handleResize); // Cleanup event listener on unmount
+    resetArray();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Adjust window dimensions and array size when window is resized
+  // Handle window resize to adjust the number of array bars
   const handleResize = () => {
     WINDOW_WIDTH = window.innerWidth;
     WINDOW_HEIGHT = window.innerHeight;
-    NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 8); // Recalculate number of array bars
-    resetArray(); // Reset the array when resizing
+    NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 8);
+    resetArray();
   };
 
-  // Function to reset the array with random values and clear any ongoing animations
+  // Reset the array with random values
   const resetArray = () => {
     if (isSorting) {
-      clearTimeouts(); // Clear any active animations
-      setIsSorting(false); // Set sorting state to false
-      resetBarColors(); // Reset the colors of all bars
+      clearTimeouts(); // Clear ongoing animations
+      setIsSorting(false);
+      resetBarColors(); // Reset bar colors
     }
-    const newArray = []; // Create a new array
+    const newArray = [];
     for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
-      // Populate array with random values
       newArray.push(randomIntFromInterval(5, WINDOW_HEIGHT / 2));
     }
-    setArray(newArray); // Update state with new array
+    setArray(newArray);
   };
 
-  // Reset the colors of all bars back to the default PRIMARY_COLOR
+  // Reset the colors of the array bars
   const resetBarColors = () => {
-    const arrayBars = document.getElementsByClassName("array-bar"); // Get all bars
+    const arrayBars = document.getElementsByClassName("array-bar");
     for (let i = 0; i < arrayBars.length; i++) {
-      arrayBars[i].style.backgroundColor = PRIMARY_COLOR; // Set color to primary
+      arrayBars[i].style.backgroundColor = PRIMARY_COLOR; // Reset to primary color
     }
   };
 
-  // Disable sorting buttons during an ongoing sort (currently no buttons to disable)
+  // Placeholder function to disable sort buttons (if any)
   const disableSortButtons = () => {
     // No buttons to disable since we removed them
   };
 
-  // Restore sorting buttons after sorting finishes (currently no buttons to restore)
+  // Placeholder function to restore sort buttons (if any)
   const restoreStoreButtons = () => {
     // No buttons to restore since we removed them
   };
 
-  // Function to handle Merge Sort and its animation
+  // Function to perform merge sort
   const mergeSort = () => {
-    disableSortButtons(); // Disable buttons during sort
-    const [animations, sortArray] = getMergeSortAnimations(array); // Get animations from the algorithm
-    animateSort(animations); // Animate the sorting process
+    disableSortButtons();
+    const [animations, sortArray] = getMergeSortAnimations(array);
+    animateSort(animations);
     const RESTORE_TIME = parseInt(
       (ANIMATION_SPEED_OPTIONS[playbackSpeed] * animations.length) / 2 + 3000
     );
-    setTimeout(() => restoreStoreButtons(), RESTORE_TIME); // Restore buttons after sort
+    setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Function to handle Quick Sort and its animation
+  // Function to perform quick sort
   const quickSort = () => {
     disableSortButtons();
     const [animations, sortArray] = getQuickSortAnimations(array);
@@ -101,7 +97,7 @@ const SortingVisualizer = () => {
     setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Function to handle Bubble Sort and its animation
+  // Function to perform bubble sort
   const bubbleSort = () => {
     disableSortButtons();
     const [animations, sortArray] = getBubbleSortAnimations(array);
@@ -112,7 +108,7 @@ const SortingVisualizer = () => {
     setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Function to handle Insertion Sort and its animation
+  // Function to perform insertion sort
   const insertionSort = () => {
     disableSortButtons();
     const [animations, sortArray] = getInsertionSortAnimations(array);
@@ -123,7 +119,7 @@ const SortingVisualizer = () => {
     setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Function to handle Selection Sort and its animation
+  // Function to perform selection sort
   const selectionSort = () => {
     disableSortButtons();
     const [animations, sortArray] = getSelectionSortAnimations(array);
@@ -134,7 +130,7 @@ const SortingVisualizer = () => {
     setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Function to handle Heap Sort and its animation
+  // Function to perform heap sort
   const heapSort = () => {
     disableSortButtons();
     const [animations, sortArray] = getHeapSortAnimations(array);
@@ -145,19 +141,20 @@ const SortingVisualizer = () => {
     setTimeout(() => restoreStoreButtons(), RESTORE_TIME);
   };
 
-  // Handle changes in the sorting algorithm dropdown menu
+  // Handle change in selected sorting algorithm
   const handleAlgorithmChange = (e) => {
-    setSelectedAlgorithm(e.target.value); // Update selected algorithm state
+    setSelectedAlgorithm(e.target.value);
   };
 
-  // Handle changes in the playback speed dropdown menu
+  // Handle change in playback speed
   const handlePlaybackSpeedChange = (e) => {
-    setPlaybackSpeed(e.target.value); // Update playback speed state
+    setPlaybackSpeed(e.target.value);
   };
 
-  // Execute the sorting animation based on the selected algorithm
+  // Execute the selected sorting algorithm
   const executeSelectedSort = () => {
-    if (!selectedAlgorithm) return; // Do nothing if no algorithm is selected
+    if (!selectedAlgorithm) return;
+
     disableSortButtons();
     switch (selectedAlgorithm) {
       case "mergeSort":
@@ -179,105 +176,122 @@ const SortingVisualizer = () => {
         heapSort();
         break;
       default:
-        restoreStoreButtons(); // Restore buttons if invalid algorithm is selected
+        restoreStoreButtons();
     }
   };
 
-  // Animate the sorting process based on the given animations
+  // Animate the sorting process
   const animateSort = (animations) => {
-    setIsSorting(true); // Mark sorting as in progress
-    const speedMultiplier = ANIMATION_SPEED_OPTIONS[playbackSpeed]; // Get speed multiplier based on selected speed
+    setIsSorting(true); // Set sorting state to true
+    const speedMultiplier = ANIMATION_SPEED_OPTIONS[playbackSpeed]; // Get speed multiplier
     for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName("array-bar"); // Get all bars
+      const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange =
-        animations[i][0] === "comparision1" || animations[i][0] === "comparision2"; // Check if it's a comparison
+        animations[i][0] === "comparision1" ||
+        animations[i][0] === "comparision2";
       if (isColorChange) {
         const color =
-          animations[i][0] === "comparision1" ? SECONDARY_COLOR : PRIMARY_COLOR; // Determine color based on comparison
-        const [, barOneIndex, barTwoIndex] = animations[i]; // Destructure animation data
+          animations[i][0] === "comparision1" ? SECONDARY_COLOR : PRIMARY_COLOR;
+        const [, barOneIndex, barTwoIndex] = animations[i];
         const barOneStyle = arrayBars[barOneIndex].style;
         const barTwoStyle = arrayBars[barTwoIndex].style;
         const timeoutId = setTimeout(() => {
-          barOneStyle.backgroundColor = color; // Change bar colors for comparison
+          barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
-        }, i * speedMultiplier); // Delay color change based on animation speed
-        timeoutsRef.current.push(timeoutId); // Store timeout for later use
+        }, i * speedMultiplier);
+        timeoutsRef.current.push(timeoutId); // Store timeout
       } else {
-        const [, barIndex, newHeight] = animations[i]; // Destructure animation data for height change
-        if (barIndex === -1) continue; // Skip if invalid bar index
+        const [, barIndex, newHeight] = animations[i];
+        if (barIndex === -1) {
+          continue;
+        }
         const barStyle = arrayBars[barIndex].style;
         const timeoutId = setTimeout(() => {
-          barStyle.height = `${newHeight}px`; // Update bar height during sorting
-        }, i * speedMultiplier); // Delay height update based on animation speed
-        timeoutsRef.current.push(timeoutId); // Store timeout for later use
+          barStyle.height = `${newHeight}px`;
+        }, i * speedMultiplier);
+        timeoutsRef.current.push(timeoutId); // Store timeout
       }
     }
-    setTimeout(() => setIsSorting(false), animations.length * speedMultiplier); // Mark sorting as complete after all animations
   };
 
-  // Clear all active timeouts (used to stop animations if needed)
+  // Clear all timeouts
   const clearTimeouts = () => {
-    timeoutsRef.current.forEach((timeoutId) => clearTimeout(timeoutId)); // Clear each stored timeout
-    timeoutsRef.current = []; // Reset timeouts reference
+    timeoutsRef.current.forEach((timeoutId) => clearTimeout(timeoutId)); // Clear all timeouts
+    timeoutsRef.current = []; // Reset the array
   };
 
-  // Generate a random integer between min and max (inclusive)
-  function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  // Render the SortingVisualizer component's UI
   return (
-    <div className="sorting-visualizer-container">
-      <div className="controls">
-        <button onClick={resetArray}>Reset Array</button> {/* Reset array button */}
-        <button onClick={executeSelectedSort} disabled={isSorting}>
-          Start Sort
-        </button> {/* Start sort button */}
-        <div>
-          <label htmlFor="algorithm-select">Algorithm:</label> {/* Algorithm dropdown */}
-          <select
-            id="algorithm-select"
-            value={selectedAlgorithm}
-            onChange={handleAlgorithmChange}
-            disabled={isSorting}
-          >
-            <option value="">Select Algorithm</option>
-            <option value="mergeSort">Merge Sort</option>
-            <option value="quickSort">Quick Sort</option>
-            <option value="bubbleSort">Bubble Sort</option>
-            <option value="insertionSort">Insertion Sort</option>
-            <option value="selectionSort">Selection Sort</option>
-            <option value="heapSort">Heap Sort</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="speed-select">Playback Speed:</label> {/* Playback speed dropdown */}
-          <select
-            id="speed-select"
-            value={playbackSpeed}
-            onChange={handlePlaybackSpeedChange}
-            disabled={isSorting}
-          >
-            <option value="0.25x">0.25x</option>
-            <option value="0.5x">0.5x</option>
-            <option value="1x">1x</option>
-            <option value="1.5x">1.5x</option>
-            <option value="2x">2x</option>
-          </select>
-        </div>
+    <div className="min-h-screen bg-slate-800 text-white p-8 pt-16 flex flex-col items-center">
+      <h1 className="text-4xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
+        Sorting Visualizer
+      </h1>
+      <div className="mb-12 flex gap-4 flex-wrap justify-center">
+        <button
+          id="generateNewArray"
+          className="px-6 py-2 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 text-white font-semibold shadow-lg hover:from-teal-500 hover:to-teal-700 transition-all duration-300"
+          onClick={resetArray}
+          title="Generates a new random array"
+        >
+          Generate New Array
+        </button>
+        {/* Dropdown for selecting sorting algorithm */}
+        <select
+          value={selectedAlgorithm}
+          onChange={handleAlgorithmChange}
+          className="px-6 py-2 rounded-md bg-slate-700 text-white font-semibold shadow-lg hover:bg-slate-600 transition-all duration-300"
+        >
+          <option value="">Select Algorithm</option>
+          <option value="mergeSort">Merge Sort</option>
+          <option value="quickSort">Quick Sort</option>
+          <option value="bubbleSort">Bubble Sort</option>
+          <option value="insertionSort">Insertion Sort</option>
+          <option value="selectionSort">Selection Sort</option>
+          <option value="heapSort">Heap Sort</option>
+        </select>
+        {/* Dropdown for selecting playback speed */}
+        <select
+          value={playbackSpeed}
+          onChange={handlePlaybackSpeedChange}
+          className="px-6 py-2 rounded-md bg-slate-700 text-white font-semibold shadow-lg hover:bg-slate-600 transition-all duration-300"
+        >
+          {Object.keys(ANIMATION_SPEED_OPTIONS).map((speed) => (
+            <option key={speed} value={speed}>
+              {speed}
+            </option>
+          ))}
+        </select>
+        {/* Submit button to execute the selected sort */}
+        <button
+          onClick={executeSelectedSort}
+          className={`px-6 py-2 rounded-md font-semibold shadow-lg transition-all duration-300 ${
+            selectedAlgorithm
+              ? "bg-gradient-to-r from-green-400 to-green-600 text-white hover:from-green-500 hover:to-green-700"
+              : "bg-gray-600 text-gray-400 cursor-not-allowed"
+          }`}
+          disabled={!selectedAlgorithm} // Disable button if no algorithm is selected
+        >
+          Sort
+        </button>
       </div>
-      <div className="array-container">
+      <div className="w-full h-[calc(100vh-350px)] min-h-[400px] bg-slate-800 rounded-xl p-4 shadow-2xl flex items-end justify-center">
         {array.map((value, idx) => (
           <div
-            className="array-bar"
+            className="array-bar w-1 mx-px"
             key={idx}
-            style={{ height: `${value}px`, backgroundColor: PRIMARY_COLOR }}
+            style={{
+              backgroundColor: PRIMARY_COLOR,
+              height: `${value}px`,
+            }}
           ></div>
-        ))} {/* Render each array bar */}
+        ))}
       </div>
     </div>
   );
 };
+
+// Function to generate a random integer between min and max (inclusive)
+function randomIntFromInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 export default SortingVisualizer;
