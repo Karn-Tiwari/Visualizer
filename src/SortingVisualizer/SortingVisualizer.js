@@ -202,7 +202,7 @@ const SortingVisualizer = () => {
     timeoutsRef.current.forEach((timeoutId) => clearTimeout(timeoutId)); // Clear all timeouts
     timeoutsRef.current = []; // Reset the array
   };
-
+const barWidth = 15;
   return (
     <div className="min-h-screen bg-slate-800 text-white p-8 pt-16 flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
@@ -259,11 +259,12 @@ const SortingVisualizer = () => {
       <div className="w-full h-[calc(100vh-350px)] min-h-[400px] bg-slate-800 rounded-xl p-4 shadow-2xl flex items-end justify-center">
         {array.map((value, idx) => (
           <div
-            className="array-bar w-3 mx-px"
+            className="array-bar w-1 mx-px"
             key={idx}
             style={{
               backgroundColor: PRIMARY_COLOR,
               height: `${value}px`,
+              width: `${barWidth}px`,
             }}
           ></div>
         ))}
