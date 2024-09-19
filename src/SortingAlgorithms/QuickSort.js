@@ -25,7 +25,9 @@ function partitionArray(auxillaryArray, startIndex, endIndex, animations) {
     animations.push(["swap", endIndex, auxillaryArray[pivotIndex]]);
     animations.push(["comparision2", pivotIndex, endIndex]);
     swap(auxillaryArray, pivotIndex, endIndex);
+
     let lessTailIndex = startIndex;
+
     for(let i = startIndex; i < endIndex; ++i) {
         animations.push(["comparision1", i, endIndex]);
         animations.push(["comparision2", i, endIndex]);
@@ -45,6 +47,7 @@ function partitionArray(auxillaryArray, startIndex, endIndex, animations) {
     
     swap(auxillaryArray, lessTailIndex, endIndex);
     return lessTailIndex;
+
     // let pivot = auxillaryArray[endIndex];
     // let pivotIndex = startIndex;
     // for (let i = startIndex; i <= endIndex - 1; i++) {
