@@ -1,31 +1,53 @@
-export function getInsertionSortAnimations(array) {
+export function getMergeSortAnimations(array) {
     let animations  = [];
     let auxillaryArray = array.slice();
-    insertionSort(auxillaryArray, animations);
+    mergeSort(auxillaryArray, 0, auxillaryArray.length - 1, animations);
     const javaScriptSortedArray = array.slice().sort((a, b) => a - b);
-    console.log("sort works correctly? ",arraysAreEqual(javaScriptSortedArray, auxillaryArray));
+    console.log(arraysAreEqual(javaScriptSortedArray, auxillaryArray));
     array = auxillaryArray;
     return [animations, array];
 }
 
-function insertionSort(auxillaryArray, animations) {
-    const N = auxillaryArray.length;
-    for (let i = 1; i < N; i++) {
-        let key = auxillaryArray[i];
-        let j = i - 1;
-        animations.push(["comparision1", j, i]);
-        animations.push(["comparision2", j, i]);
-        while(j >= 0 && auxillaryArray[j] > key) {
-            animations.push(["overwrite", j + 1, auxillaryArray[j]]);
-            auxillaryArray[j + 1] = auxillaryArray[j];
-            j = j - 1;
-            if(j >= 0) {
-                animations.push(["comparision1", j, i]);
-                animations.push(["comparision2", j, i]);
-            }     
+function mergeSort(auxillaryArray, startIndex, endIndex, animations) {
+    if(startIndex === endIndex)
+        return;
+    const middleIndex = Math.floor((startIndex + endIndex)/2);
+    mergeSort(auxillaryArray, startIndex, middleIndex, animations);
+    mergeSort(auxillaryArray, middleIndex + 1, endIndex, animations);
+    merge(auxillaryArray, startIndex, middleIndex, endIndex, animations);
+}
+
+function merge(auxillaryArray, startIndex, middleIndex, endIndex, animations) {
+    let sortArray = [];
+    let i = startIndex;
+    let j = middleIndex + 1;
+    while(i <= middleIndex && j <= endIndex) {
+        //Comparing value at ith and jth index so push them to change their color
+        animations.push(["comparision1", i, j]);
+        //By changing color we imply that we are comparing those two values and then again we should revert back to their original color so push them again
+        animations.push(["comparision2", i, j]);
+        if(auxillaryArray[i] <= auxillaryArray[j]) {
+            sortArray.push(auxillaryArray[i++]);
         }
-        animations.push(["overwrite", j + 1, key]);
-        auxillaryArray[j + 1] = key;
+        else {
+            sortArray.push(auxillaryArray[j++]);
+        }
+    }
+    while(i <= middleIndex) {
+        animations.push(["comparision1", i, i]);
+        animations.push(["comparision2", i, i]);
+        sortArray.push(auxillaryArray[i++]);
+    }
+    while(j <= endIndex) {
+        animations.push(["comparision1", j, j]);
+        animations.push(["comparision2", j, j]);
+        sortArray.push(auxillaryArray[j++]);
+    }
+    for (let i = startIndex; i <= endIndex; i++) {
+        animations.push(["comparision1", i, i - startIndex]);
+        animations.push(["overwrite", i, sortArray[i - startIndex]]);
+        animations.push(["comparision2", i, i - startIndex]);
+        auxillaryArray[i] = sortArray[i - startIndex];
     }
 }
 
