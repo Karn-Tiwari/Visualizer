@@ -9,7 +9,7 @@ import { getHeapSortAnimations } from "../SortingAlgorithms/HeapSort";
 // Constants
 let WINDOW_WIDTH = window.innerWidth;
 let WINDOW_HEIGHT = window.innerHeight;
-let NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 8);
+let NUMBER_OF_ARRAY_BARS = Math.floor(WINDOW_WIDTH / 15);
 const ANIMATION_SPEED_OPTIONS = {
   "0.25x": 150,
   "0.5x": 75,
