@@ -259,7 +259,7 @@ const SortingVisualizer = () => {
       <div className="w-full h-[calc(100vh-350px)] min-h-[400px] bg-slate-800 rounded-xl p-4 shadow-2xl flex items-end justify-center">
         {array.map((value, idx) => (
           <div
-            className="array-bar w-1 mx-px"
+            className="array-bar w-3 mx-px"
             key={idx}
             style={{
               backgroundColor: PRIMARY_COLOR,
